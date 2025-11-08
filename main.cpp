@@ -77,7 +77,7 @@ void markBoard(string player, int line, int column) {
             markBoard(player, line, column);
         }
     } else {
-        cout << "Nu ai introdus o pozitie existenta pe tabla de joc\n\n";
+        cout << "Nu ai introdus o pozitie existenta pe tabla de joc";
         cout << "Reintrodu linia: ";
         cin >> line;
         cout << "Reintrodu coloana: ";
@@ -132,6 +132,7 @@ int main() {
             drawEmptyBoard(board);
         } else {
             drawBoard();
+            cout << "\n";
         }
         cout << playerTurn(nextMove);
         cout << "Introdu numarul liniei: ";
