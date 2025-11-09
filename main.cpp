@@ -154,5 +154,7 @@ int main() {
         ++moves;
     }
     
+    cout << "Jocul s-a terminat!☠️\n";
+    
     return 0;
 }
