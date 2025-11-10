@@ -25,17 +25,17 @@ const pair<int, int> winningCases[LINES][COLUMNS] = {
     { {1,3}, {2,2}, {3,1} }
 };
 
-//shows game rules
+//Shows game rules
 void gameRules() {
     cout << "Regulile jocului:" << "\n";
     cout << "Primul jucator care obtine 3 de X/0 pe coloana/linie/diagonala castiga" << "\n";
-    cout << "Pentru linie/coloana poti introduce valori doar intre 1-3" << "\n";
+    cout << "Pentru linie/coloana poti introduce valori doar intre 1-3 inclusiv" << "\n";
     cout << "Daca spatiul este ocupat trebuie sa introduci niste valori valide pentru o pozitie goala" << "\n";
     cout << "Jucatorul 1 - " << PLAYER_1 << "\n";
     cout << "Jucatorul 2 - " << PLAYER_2 << "\n";
 }
 
-//creates empty game board
+//Creates empty game board
 void drawEmptyBoard(string board[BOARD_LENGTH + 1][BOARD_LENGTH + 1]) {
     for (int i = 1; i <= BOARD_LENGTH; ++i) {
         for (int j = 1; j <= BOARD_LENGTH; ++j) {
@@ -47,7 +47,7 @@ void drawEmptyBoard(string board[BOARD_LENGTH + 1][BOARD_LENGTH + 1]) {
     cout << "\n";
 }
 
-//handles player turn
+//Handles player turn
 string playerTurn(string &player) {
     if (player == PLAYER_1) {
         player = PLAYER_2;
@@ -58,7 +58,7 @@ string playerTurn(string &player) {
     }
 }
 
-//checks if one of the players already marked the space on the board
+//Checks if a board position is empty.
 bool isOccupied(int line, int column) {
     if (board[line][column] == EMPTY_SPACE) {
         return true;
@@ -66,7 +66,7 @@ bool isOccupied(int line, int column) {
     return false;
 }
 
-//marks board with either X or 0;
+//Marks board with either X or 0;
 void markBoard(string player, int line, int column) {
     if (line >= 1 && line <= BOARD_LENGTH &&
         column >= 1 && column <= BOARD_LENGTH) {
@@ -90,9 +90,9 @@ void markBoard(string player, int line, int column) {
     }
 }
 
-//verifies if someone won
+//Verifies if someone won
 bool checkWinner(string player) {
-    for (auto winCombo : winningCases) {
+    for (const auto winCombo : winningCases) {
         if (board[winCombo[0].first][winCombo[0].second] == player &&
             board[winCombo[1].first][winCombo[1].second] == player &&
             board[winCombo[2].first][winCombo[2].second] == player) {
@@ -102,7 +102,7 @@ bool checkWinner(string player) {
     return false;
 }
 
-//shows current state of the game board
+//Shows current state of the game board
 void drawBoard() {
     for (int i = 1; i <= BOARD_LENGTH; ++i) {
         for (int j = 1; j <= BOARD_LENGTH; ++j) {
@@ -112,7 +112,7 @@ void drawBoard() {
     }
 }
 
-//ends or restarts the game
+//Ends or restarts the game
 void restartGame(bool &gameFinished, int &moves, string &playerMove) {
     int answer;
     cout << "Incepe un joc nou? Da - 1, Nu - 2\n";
