@@ -11,8 +11,9 @@ const string PLAYER_1 = "❌";
 const string PLAYER_2 = "🅾️";
 
 string board[BOARD_LENGTH + 1][BOARD_LENGTH + 1];
-string player = PLAYER_1;
+string currentPlayer = PLAYER_1;
 
+//winning pairs array
 const pair<int, int> winningCases[LINES][COLUMNS] = {
     { {1,1}, {1,2}, {1,3} },
     { {2,1}, {2,2}, {2,3} },
@@ -24,7 +25,7 @@ const pair<int, int> winningCases[LINES][COLUMNS] = {
     { {1,3}, {2,2}, {3,1} }
 };
 
-
+//shows game rules
 void gameRules() {
     cout << "Regulile jocului:" << "\n";
     cout << "Primul jucator care obtine 3 de X/0 pe coloana/linie/diagonala castiga" << "\n";
@@ -34,6 +35,7 @@ void gameRules() {
     cout << "Jucatorul 2 - " << PLAYER_2 << "\n";
 }
 
+//creates empty game board
 void drawEmptyBoard(string board[BOARD_LENGTH + 1][BOARD_LENGTH + 1]) {
     for (int i = 1; i <= BOARD_LENGTH; ++i) {
         for (int j = 1; j <= BOARD_LENGTH; ++j) {
@@ -45,6 +47,7 @@ void drawEmptyBoard(string board[BOARD_LENGTH + 1][BOARD_LENGTH + 1]) {
     cout << "\n";
 }
 
+//handles player turn
 string playerTurn(string &player) {
     if (player == PLAYER_1) {
         player = PLAYER_2;
@@ -55,7 +58,7 @@ string playerTurn(string &player) {
     }
 }
 
-//checks if one of the players already marked the space on the game board
+//checks if one of the players already marked the space on the board
 bool isOccupied(int line, int column) {
     if (board[line][column] == EMPTY_SPACE) {
         return true;
@@ -65,7 +68,8 @@ bool isOccupied(int line, int column) {
 
 //marks board with either X or 0;
 void markBoard(string player, int line, int column) {
-    if ((line >= 1 && line <= BOARD_LENGTH) && (column >= 1 && column <= BOARD_LENGTH)) {
+    if (line >= 1 && line <= BOARD_LENGTH &&
+        column >= 1 && column <= BOARD_LENGTH) {
         if (isOccupied(line, column)) {
             board[line][column] = player;
         } else {
@@ -77,7 +81,7 @@ void markBoard(string player, int line, int column) {
             markBoard(player, line, column);
         }
     } else {
-        cout << "Nu ai introdus o pozitie existenta pe tabla de joc";
+        cout << "Nu ai introdus o pozitie existenta pe tabla de joc\n";
         cout << "Reintrodu linia: ";
         cin >> line;
         cout << "Reintrodu coloana: ";
@@ -86,6 +90,7 @@ void markBoard(string player, int line, int column) {
     }
 }
 
+//verifies if someone won
 bool checkWinner(string player) {
     for (auto winCombo : winningCases) {
         if (board[winCombo[0].first][winCombo[0].second] == player &&
@@ -97,6 +102,7 @@ bool checkWinner(string player) {
     return false;
 }
 
+//shows current state of the game board
 void drawBoard() {
     for (int i = 1; i <= BOARD_LENGTH; ++i) {
         for (int j = 1; j <= BOARD_LENGTH; ++j) {
@@ -106,6 +112,7 @@ void drawBoard() {
     }
 }
 
+//ends or restarts the game
 void restartGame(bool &gameFinished, int &moves, string &playerMove) {
     int answer;
     cout << "Incepe un joc nou? Da - 1, Nu - 2\n";
@@ -123,7 +130,7 @@ int main() {
     int line, column;
     int moves = 1;
     bool finishGame = false;
-    string nextMove = PLAYER_1;
+    string nextPlayer = PLAYER_1;
     
     gameRules();
     
@@ -134,23 +141,27 @@ int main() {
             drawBoard();
             cout << "\n";
         }
-        cout << playerTurn(nextMove);
+        
+        cout << playerTurn(nextPlayer);
         cout << "Introdu numarul liniei: ";
         cin >> line;
         cout << "Introdu numarul coloanei: ";
         cin >> column;
-        markBoard(player, line, column);
-        if (checkWinner(player)) {
+        
+        markBoard(currentPlayer, line, column);
+        
+        if (checkWinner(currentPlayer)) {
             drawBoard();
-            cout << "Jucatorul " << player << " a castigat 🎉\n";
-            restartGame(finishGame, moves, nextMove);
+            cout << "Jucatorul " << currentPlayer << " a castigat 🎉\n";
+            restartGame(finishGame, moves, nextPlayer);
         } else if (moves == MAX_MOVES) {
             drawBoard();
             cout << "Jocul s-a terminat la egalitate! 🤝\n";
-            restartGame(finishGame, moves, nextMove);
+            restartGame(finishGame, moves, nextPlayer);
         }
+        
         cout << "\n";
-        player = nextMove;
+        currentPlayer = nextPlayer;
         ++moves;
     }
     
