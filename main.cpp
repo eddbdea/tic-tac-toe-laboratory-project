@@ -58,7 +58,7 @@ string playerTurn(string &player) {
     }
 }
 
-//Checks if a board position is empty.
+//Checks if a board position is empty
 bool isOccupied(int line, int column) {
     if (board[line][column] == EMPTY_SPACE) {
         return true;
@@ -66,7 +66,7 @@ bool isOccupied(int line, int column) {
     return false;
 }
 
-//Marks board with either X or 0;
+//Marks board with either X or 0
 void markBoard(string player, int line, int column) {
     if (line >= 1 && line <= BOARD_LENGTH &&
         column >= 1 && column <= BOARD_LENGTH) {
